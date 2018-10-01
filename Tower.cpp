@@ -276,17 +276,17 @@ int main()
 	Vertex *v; Vertex *couple;
 	FILE *file;
 
-	//FILE CONTAINING THE EXAMPLE OF BLOCKS: 
+	//FILE CONTAINS THE EXAMPLE OF BLOCKS: 
 	file = fopen("blocks.txt", "r");
 
-	//ENTERING A NUMBER OF VERTEX:
+	//ENTER A NUMBER OF VERTEX:
 	std::cin >> vert_numb;
 	std::cin.ignore();
 	Graph g(vert_numb);
 	v = new Vertex[vert_numb];
 	couple = new Vertex[vert_numb*vert_numb];
 
-	//ENTERING THE BLOCKS:
+	//ENTER THE BLOCKS:
 	int k = 0;
 	for (int i = 0; i < vert_numb; i++)
 	{
