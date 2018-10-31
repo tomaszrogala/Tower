@@ -18,8 +18,7 @@ struct Vertex
 	}
 	void fill(char block[])
 	{
-		for (int i = 0; i < block_number; i++)
-		{
+		for (int i = 0; i < block_number; i++){
 			this->block[i] = block[i];
 		}
 	}
@@ -32,8 +31,7 @@ void merge(Vertex first, Vertex second, Vertex couple[], int index, int vert_num
 
 	couple[index].add(first.block_number + second.block_number + 1);
 
-	for (int j = 0; j <= first.block_number + second.block_number; j++)
-	{
+	for (int j = 0; j <= first.block_number + second.block_number; j++){
 		if (j < second.block_number)
 		couple[index].block[j] = second.block[j];
 
@@ -49,23 +47,19 @@ void merge(Vertex first, Vertex second, Vertex couple[], int index, int vert_num
 	//Searching for the longest prefix-suffix:
 	int j = 0; int l = 1; T[0] = 0;
 	
-	while (l < couple[index].block_number)
-	{
-		if (couple[index].block[l] == couple[index].block[j])
-		{
+	while (l < couple[index].block_number){
+		if (couple[index].block[l] == couple[index].block[j]){
 			T[l] = j + 1;
 			j++;
 			l++;
 			if (l >= couple[index].block_number)
 			break;
 
-			while (couple[index].block[l] != couple[index].block[j])
-			{
+			while (couple[index].block[l] != couple[index].block[j]){
 				j = T[j - 1];
 				if (j == 0)
 				{
-					while (couple[index].block[l] != couple[index].block[j])
-					{
+					while (couple[index].block[l] != couple[index].block[j]){
 						T[l] = 0;
 						l++;
 						if (l >= couple[index].block_number)
@@ -76,8 +70,7 @@ void merge(Vertex first, Vertex second, Vertex couple[], int index, int vert_num
 				}
 			}
 		}
-		else
-		{
+		else{
 			T[l] = 0;
 			l++;
 		}
@@ -97,8 +90,7 @@ struct Dijkstr
 	int edge;
 	bool open;
 
-	Dijkstr()
-	{
+	Dijkstr(){
 		edge = INT_MAX;
 		open = true;
 	}
@@ -111,21 +103,18 @@ struct Graph
 	int vert_numb;
 
 	void search_path(int vert_numb, int begin_index, int end_index, Vertex v);
-	Graph(int vert_numb)
-	{
+	Graph(int vert_numb){
 		this->vert_numb = vert_numb;
 
 		dijkstra_array = new Dijkstr[vert_numb]; 
 										
 		M = new int*[vert_numb];
 
-		for (int i = 0; i < vert_numb; i++)
-		{
+		for (int i = 0; i < vert_numb; i++){
 			M[i] = new int[vert_numb];
 		}
 
-		for (int i = 0; i < vert_numb; i++)
-		{
+		for (int i = 0; i < vert_numb; i++){
 			for (int j = 0; j < vert_numb; j++)
 			{
 				if (i == j)
@@ -140,8 +129,7 @@ struct Graph
 	{
 		delete[] dijkstra_array;
 
-		for (int i = 0; i < vert_numb; i++)
-		{
+		for (int i = 0; i < vert_numb; i++){
 			delete[] M[i];
 		}
 		delete[] M;
@@ -153,9 +141,7 @@ void add_graph(Graph &g, Vertex couple[])
 {
 //CREATING GRAPH EDGES:
 	for (int i = 0; i < g.vert_numb*g.vert_numb - g.vert_numb; i++)
-	{
 		g.M[couple[i].first_index][couple[i].second_index] = couple[i].edge;
-	}
 }
 
 void Graph::search_path(int vert_numb, int begin_index, int end_index, Vertex v)
@@ -163,30 +149,22 @@ void Graph::search_path(int vert_numb, int begin_index, int end_index, Vertex v)
 	bool flag = false;
 	int min = INT_MAX;
 	
-	for (int i = 0; i < vert_numb; i++)
-	{
+	for (int i = 0; i < vert_numb; i++){
 		dijkstra_array[i].edge = INT_MAX;
 		dijkstra_array[i].open = true;
 	}
 
-	while (end_index != begin_index)
-	{
-		for (int i = 0; i < vert_numb; i++)
-		{
-			if (dijkstra_array[i].open == true)
-			{
-				if (M[begin_index][i] != INT_MAX)
-				{
-					if (dijkstra_array[begin_index].edge == INT_MAX)
-					{
+	while (end_index != begin_index){
+		for (int i = 0; i < vert_numb; i++){
+			if (dijkstra_array[i].open == true){
+				if (M[begin_index][i] != INT_MAX){
+					if (dijkstra_array[begin_index].edge == INT_MAX){
 						dijkstra_array[i].edge = M[begin_index][i];
 					}
-					else
-					{
+					else{
 						if (dijkstra_array[i].edge > M[begin_index][i] + dijkstra_array[begin_index].edge)
-						{
 							dijkstra_array[i].edge = M[begin_index][i] + dijkstra_array[begin_index].edge;
-						}
+						
 					}
 				}
 			}
@@ -195,16 +173,13 @@ void Graph::search_path(int vert_numb, int begin_index, int end_index, Vertex v)
 		dijkstra_array[begin_index].open = false;
 		
 		//search for the smallest value:
-		for (int i = 0; i < vert_numb; i++)
-		{
-			if (dijkstra_array[i].edge < min && dijkstra_array[i].open == true)
-			{
+		for (int i = 0; i < vert_numb; i++){
+			if (dijkstra_array[i].edge < min && dijkstra_array[i].open == true){
 				min = dijkstra_array[i].edge;
 				begin_index = i;
 			}
 		}
-		if (min == INT_MAX)
-		{
+		if (min == INT_MAX){
 			std::cout << '0';
 			flag = true;
 			break;
@@ -222,26 +197,22 @@ int exp(int base, int index)
 {
 	int x = 1;
 
-	for (int i = 0; i < index; i++)
-	{
+	for (int i = 0; i < index; i++){
 		x *= base;
 	}
 
 	return x;
 }
 
-int input_int(char *&pointer)
-{
+int input_int(char *&pointer){
 	int x = 0;
 	int k = 0;
 
-	while (*pointer != ' ' && *pointer != '\n' && *pointer != '\0')
-	{
+	while (*pointer != ' ' && *pointer != '\n' && *pointer != '\0'){
 		k++;
 		pointer++;
 	}
-	for (int i = 0; i < k; i++)
-	{
+	for (int i = 0; i < k; i++){
 		pointer--;
 		x = x + ((*pointer - 48) * exp(10, i));
 	}
@@ -250,18 +221,15 @@ int input_int(char *&pointer)
 	return x;
 }
 
-char input_char(char *&pointer)
-{
+char input_char(char *&pointer){
 	char x;
 
-	if (*pointer == '1' || *pointer == '2' || *pointer == '3' || *pointer == '4' || *pointer == '5' || *pointer == '6' || *pointer == '7' || *pointer == '8' || *pointer == '9' || *pointer == '0')
-	{
+	if (*pointer == '1' || *pointer == '2' || *pointer == '3' || *pointer == '4' || *pointer == '5' || *pointer == '6' || *pointer == '7' || *pointer == '8' || *pointer == '9' || *pointer == '0'){
 		x = input_int(pointer);
 		pointer++;
 		return x;
 	}
-	else
-	{
+	else{
 		x = *pointer;
 		pointer++;
 		return x;
@@ -288,21 +256,18 @@ int main()
 
 	//ENTER THE BLOCKS:
 	int k = 0;
-	for (int i = 0; i < vert_numb; i++)
-	{
+	for (int i = 0; i < vert_numb; i++){
 		fgets(array_in, 10000, file);
 		pointer = &array_in[0];
 		int k = 0;
-		while (*pointer != '\0')
-		{
-			if (*pointer != '\n'&& *pointer != '\0')
-			{
+		
+		while (*pointer != '\0'){
+			if (*pointer != '\n'&& *pointer != '\0'){
 				array_out[k] = input_char(pointer);
 				block_numb++;
 				k++;
 			}
-			else
-			{
+			else{
 				pointer++;
 			}
 		}
@@ -319,12 +284,9 @@ int main()
 
 	//VERTEX PAIRING:
 	k = 0;
-	for (int j = 0; j < vert_numb; j++)
-	{
-		for (int i = 0; i < vert_numb; i++)
-		{
-			if (i != j)
-			{
+	for (int j = 0; j < vert_numb; j++){
+		for (int i = 0; i < vert_numb; i++){
+			if (i != j){
 				merge(v[j], v[i], couple, k, vert_numb, i, j);
 				k++;
 			}
